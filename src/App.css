@@ -1,0 +1,284 @@
+body{
+    background-color: #f0f2f5;
+    margin: 0;
+    padding:0;
+    min-height:100%;
+    position: relative;
+
+}
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: -10;
+}
+main{
+    margin-top: 125px;
+}
+header{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+.layoutDashboard{
+    display: flex;
+    padding: 1rem;
+    padding-bottom: 0;
+}
+.box{
+    height: 80vh;
+    margin: 2.5rem 1rem 1rem 1rem;
+    overflow-y: scroll;
+}
+
+/*ScrollToTop*/
+.scroll-to-top {
+    position: fixed;
+    bottom: 40px;
+    left: 90%;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: #00BB6D;
+    color: white;
+    z-index: 1;
+}
+.scroll-to-top .icon {
+    margin-top: 10px;
+    animation: scrollTop 0.5s alternate ease infinite;
+}
+@keyframes scrollTop {
+    from {
+        transform: translateY(2px);
+    }
+    to {
+        transform: translateY(-1px);
+    }
+}
+/*Dashboard*/
+.dashboard{
+    flex: 1;
+    height: calc(100vh - 2rem);
+    background-color: #42424a;
+    position: sticky;
+    border-radius: 0.75rem;
+}
+.dashboardWrapper{
+    padding: 1rem;
+    color: #555555;
+    color: white !important;
+}
+.dashboardMenu{
+    margin-bottom: 10px;
+}
+.dashboardTitle{
+    font-size: 1.5rem;
+    text-align: center;
+}
+.dashboardList{
+    list-style: none;
+    padding: 5px;
+}
+.dashboardList .link{
+    color: white;
+    text-decoration: none;
+}
+
+.dashboardList .link:hover .dashboardItem{
+    background-color: #00BB6D;
+}
+.dashboardList .active{
+    background-color: #00BB6D;
+}
+
+.dashboardItem{
+    padding: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.dashboardIcon{
+    margin-right: 5px;
+    font-size: 1.75rem !important;
+}
+.mainDashboard{
+    flex: 4;
+    margin-left: 0.75rem;
+}
+
+/*TopBarDashboard*/
+.topBarDashboard{
+    width: 100%;
+    height: 5rem;
+}
+.topBarDashboard .link{
+    color: #555;
+}
+.topBarWrapper{
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.topBarIconContainer{
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #555;
+}
+.topRight{
+    display: flex;
+    align-items: center;
+}
+.logo{
+    font-weight: bold;
+    font-size: 30px;
+    color: blue;
+    cursor: pointer;
+}
+
+/*header*/
+.navbar{
+    padding-left: 10%;
+    padding-right: 5%;
+}
+/*footter*/
+.bottomFooter
+{
+    background-color: #00BB6D;
+    height: 2rem;
+}
+
+/*Carousel*/
+.carousel-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-wrapper {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.carousel-content-wrapper {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-content {
+    display: flex;
+    transition: all 250ms linear;
+    -ms-overflow-style: none;  /* hide scrollbar in IE and Edge */
+    scrollbar-width: none;  /* hide scrollbar in Firefox */
+}
+
+/* hide scrollbar in webkit browser */
+.carousel-content::-webkit-scrollbar, .carousel-content::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-content > * {
+    width: 100%;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.carousel-content.show-2 > * {
+    width: 50%;
+}
+
+.carousel-content.show-3 > * {
+    width: calc(100% / 3);
+}
+
+.carousel-content.show-4 > * {
+    width: calc(100% / 4);
+}
+
+.left-arrow, .right-arrow {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: white;
+    border: 1px solid #ddd;
+}
+
+.left-arrow {
+    left: 24px;
+}
+
+.right-arrow {
+    right: 24px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .left-arrow, .right-arrow {
+        display: none;
+    }
+}
+.solieu{
+    background-image: url("./assets/bg2.jpg");
+    background-size: cover;
+    color: white;
+}
+
+.card{
+    background-color: #9DABAF20;
+}
+
+/*Loginform*/
+
+.Auth-form {
+    width: 80%;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    border-radius: 8px;
+    background-color: white;
+    margin: 200px auto;
+}
+
+.Auth-form-content {
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+.Auth-form-title {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 24px;
+    color: rgb(34, 34, 34);
+    font-weight: 800;
+}
+
+#fileResult{
+    font-size: 15px;
+}
+.card-body{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.center-table {
+    width: 50%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.center-table th, .center-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}

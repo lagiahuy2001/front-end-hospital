@@ -9,11 +9,16 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select, Slide
+    Select, Slide, Snackbar
 } from "@mui/material";
 import {useForm} from "react-hook-form";
 import moment from "moment";
+import MuiAlert from "@mui/material/Alert";
 
+
+const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const TransitionDialog = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -22,6 +27,7 @@ const StaffRegisDetail = () => {
     const params = useParams();
     const [data, setData] = useState({});
     const [service, setService] = useState([]);
+    const [snackbar, setSnackbar] = useState(false);
     const [price, setPrice] = useState(0)
 
 
@@ -56,6 +62,13 @@ const StaffRegisDetail = () => {
         mode: "onBlur",
     });
 
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbar(false);
+    };
+
     const regisService = (data) => {
         axios.post('/hospital/staff/create-registration-service', data).then((response) => {
             setDialog2(false)
@@ -66,7 +79,13 @@ const StaffRegisDetail = () => {
     const [dialog1, setDialog1] = useState(false);
 
     const navigate = useNavigate();
-
+    const refuseRegistration = () => {
+        axios.get('/hospital/staff/refuseRegistration/' + params.id)
+            .then(res => {
+                alert('')
+                setTimeout(() => navigate("/staff"), 2500)
+            })
+    }
     const handleCloseDialog1 = () => {
         setDialog1(false);
         navigate("/staff")
@@ -76,7 +95,7 @@ const StaffRegisDetail = () => {
         <div className="box">
             <div className="mb-3 hstack gap-3">
                 <button className="btn btn-primary ms-auto" onClick={openDialog2}>Đăng ký chỉ định</button>
-                <button className="btn btn-danger">Hủy đơn đăng ký</button>
+                <button className="btn btn-danger" onClick={refuseRegistration}>Từ chối đơn đăng ký</button>
                 <Link to="/staff">
                     <button className="btn btn-secondary">Trở về</button>
                 </Link>
@@ -230,6 +249,11 @@ const StaffRegisDetail = () => {
                     <Button onClick={handleCloseDialog1}>Xác nhận</Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar open={snackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{width: '100%'}}>
+                    Cập nhật thành công
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

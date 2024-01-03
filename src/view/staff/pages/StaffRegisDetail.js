@@ -82,7 +82,7 @@ const StaffRegisDetail = () => {
     const refuseRegistration = () => {
         axios.get('/hospital/staff/refuseRegistration/' + params.id)
             .then(res => {
-                alert('')
+                setSnackbar(true)
                 setTimeout(() => navigate("/staff"), 2500)
             })
     }

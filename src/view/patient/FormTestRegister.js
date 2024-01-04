@@ -20,10 +20,12 @@ const FormTestRegister = () => {
 
     const getData = async () => {
         await axios.get('/get-user').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.user)
         })
         await axios.get('/get-all-service').then((response) => {
-            setListService(response.data.list_service)
+            const data = JSON.parse(atob(response.data))
+            setListService(data.list_service)
         })
     }
 

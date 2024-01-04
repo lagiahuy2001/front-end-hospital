@@ -36,7 +36,8 @@ const Login = () => {
     });
     const onSubmit = (data) => {
         axios.post('/login', data).then((response) => {
-            dispatch(statusLoginActions.login(response.data.user))
+            const data = JSON.parse(atob(response.data))
+            dispatch(statusLoginActions.login(data.user))
             for (var i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
 
@@ -44,15 +45,15 @@ const Login = () => {
                     localStorage.removeItem(key);
                 }
             }
-            jwt.saveToken(response.data.access_token, response.data.expires_in)
+            jwt.saveToken(data.access_token, data.expires_in)
 
-            if(response.data.user.role.role_name === "ADMIN"){
+            if(data.user.role.role_name === "ADMIN"){
                 navigate("/admin/manage-user")
-            } else if(response.data.user.role.role_name === "COORDINATOR"){
+            } else if(data.user.role.role_name === "COORDINATOR"){
                 navigate("/coordinator")
-            } else if(response.data.user.role.role_name === "TESTER"){
+            } else if(data.user.role.role_name === "TESTER"){
                 navigate("/tester")
-            } else if(response.data.user.role.role_name === "STAFF"){
+            } else if(data.user.role.role_name === "STAFF"){
                 navigate("/staff")
             } else {
                 navigate("/")

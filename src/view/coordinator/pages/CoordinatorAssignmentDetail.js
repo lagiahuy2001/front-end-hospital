@@ -44,8 +44,9 @@ const CoordinatorAssignmentDetail = () => {
 
     const getData = () => {
         axios.get('/hospital/get-detail-registration/' + params.id).then((response) => {
-            let res = response.data
-            res.created_at = moment(response.data.created_at).format('YYYY-MM-DD')
+            const data = JSON.parse(atob(response.data))
+            let res = data.registration
+            res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
         })
     }
@@ -53,7 +54,8 @@ const CoordinatorAssignmentDetail = () => {
     useEffect(() => {
         getData();
         axios.get('/hospital/coordinator/get-all-staff').then((response) => {
-            setListStaff(response.data)
+            const data = JSON.parse(atob(response.data))
+            setListStaff(data.staff)
         })
     }, [])
 
@@ -111,8 +113,9 @@ const CoordinatorAssignmentDetail = () => {
             id: data.id,
         }
         axios.post('/hospital/coordinator/update-registration', payload).then((response) => {
-            let res = response.data
-            res.created_at = moment(response.data.created_at).format('YYYY-MM-DD')
+            const data = JSON.parse(atob(response.data))
+            let res = data.registration
+            res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
             setIsUpdate(false)
             setSnackbar(true)
@@ -121,8 +124,9 @@ const CoordinatorAssignmentDetail = () => {
 
     const refuse = () => {
         axios.get('/hospital/coordinator/refuse-registration/' + data.id).then((response) => {
-            let res = response.data
-            res.created_at = moment(response.data.created_at).format('YYYY-MM-DD')
+            const data = JSON.parse(atob(response.data))
+            let res = data.registration
+            res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
         })
     }

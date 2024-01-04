@@ -40,12 +40,9 @@ const Register = () => {
 
     const onSubmit = (data) => {
         axios.post('/patient-registration', data).then((response) => {
-            if(response.data.false){
-                setSnackbar(true)
-            }
-            if(response.data.success){
-                setDialog(true)
-            }
+            setDialog(true)
+        }).catch(() => {
+            setSnackbar(true)
         })
     };
 

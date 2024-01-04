@@ -9,7 +9,8 @@ const CoordinatorAssignment = () => {
 
     useEffect(() => {
         axios.get('/hospital/coordinator/all-regis-new').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.registration)
         })
     }, [])
 

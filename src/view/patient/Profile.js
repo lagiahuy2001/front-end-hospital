@@ -52,10 +52,12 @@ const Profile = () => {
 
     const getData = () => {
         axios.get('/get-user').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.user)
         }).then(() => {
             axios.get('/app/get-list-registration' ).then((response) => {
-                setListRegis(response.data)
+                const data = JSON.parse(atob(response.data))
+                setListRegis(data.registration)
             })
         })
     }

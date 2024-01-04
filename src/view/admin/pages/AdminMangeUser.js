@@ -31,11 +31,13 @@ const AdminMangeUser = () => {
         setFill(0)
         setSearch('')
         axios.get('/hospital/admin/get-list-user').then((response) => {
-            setData(response.data.list_user)
-            setCountUser(response.data.list_user.length)
+            const data = JSON.parse(atob(response.data))
+            setData(data.list_user)
+            setCountUser(data.list_user.length)
         })
         axios.get('/hospital/admin/get-all-role').then((response) => {
-            setListRoles(response.data.list_role)
+            const data = JSON.parse(atob(response.data))
+            setListRoles(data.list_role)
         })
     }
     useEffect(() => {
@@ -79,8 +81,9 @@ const AdminMangeUser = () => {
             getData()
         }else {
             axios.get('/hospital/admin/fill-user-by-type/' + event.target.value).then((response) => {
-                setData(response.data)
-                setCountUser(response.data.length)
+                const data = JSON.parse(atob(response.data))
+                setData(data.listUser)
+                setCountUser(data.listUser.length)
             })
         }
     };
@@ -119,8 +122,9 @@ const AdminMangeUser = () => {
             setSearch(e.target.value)
             if(e.target.value != ''){
                 axios.get('/hospital/admin/search-user/' + e.target.value).then((response) => {
-                    setData(response.data)
-                    setCountUser(response.data.length)
+                    const data = JSON.parse(atob(response.data))
+                    setData(data.listUser)
+                    setCountUser(data.listUser.length)
                 })
             }
         }

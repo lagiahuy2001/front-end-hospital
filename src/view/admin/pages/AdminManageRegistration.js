@@ -13,8 +13,9 @@ const AdminManageRegistration = () => {
         setFill(4)
         setSearch('')
         axios.get('/hospital/get-registration').then((response) => {
-            setData(response.data)
-            setCountRegis(response.data.length)
+            const data = JSON.parse(atob(response.data))
+            setData(data.registration)
+            setCountRegis(data.registration.length)
         })
     }
     useEffect(() => {
@@ -62,8 +63,9 @@ const AdminManageRegistration = () => {
             getData()
         }else {
             axios.get('/hospital/fill-regis-by-type/' + event.target.value).then((response) => {
-                setData(response.data)
-                setCountRegis(response.data.length)
+                const data = JSON.parse(atob(response.data))
+                setData(data.registration)
+                setCountRegis(data.registration.length)
             })
         }
     };
@@ -76,8 +78,9 @@ const AdminManageRegistration = () => {
             setSearch(e.target.value)
             if(e.target.value != ''){
                 axios.get('/hospital/search-regis/' + e.target.value).then((response) => {
-                    setData(response.data)
-                    setCountRegis(response.data.length)
+                    const data = JSON.parse(atob(response.data))
+                    setData(data.registration)
+                    setCountRegis(data.registration.length)
                 })
             }
         }

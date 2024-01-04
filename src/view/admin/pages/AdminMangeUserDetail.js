@@ -12,7 +12,8 @@ const AdminMangeUserDetail = () => {
 
     const getData = () => {
         axios.get('/hospital/admin/get-user-detail/' + params.id).then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.user)
         })
     }
 
@@ -54,8 +55,9 @@ const AdminMangeUserDetail = () => {
         }
         axios.post('/hospital/admin/update-user', payload)
             .then((response) => {
-            setData(response.data)
-            setIsUpdate(false)
+                const data = JSON.parse(atob(response.data))
+                setData(data.user)
+                setIsUpdate(false)
         })
             .catch(response => {
                 alert(response.response.data.error.message)

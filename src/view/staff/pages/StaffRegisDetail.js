@@ -33,8 +33,9 @@ const StaffRegisDetail = () => {
 
     const getData = () => {
         axios.get('/hospital/get-detail-registration/' + params.id).then((response) => {
-            let res = response.data
-            res.created_at = moment(response.data.created_at).format('YYYY-MM-DD')
+            const data = JSON.parse(atob(response.data))
+            let res = data.registration
+            res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
         })
     }
@@ -42,7 +43,8 @@ const StaffRegisDetail = () => {
     useEffect(() => {
         getData();
         axios.get('/get-all-service').then((response) => {
-            setService(response.data.list_service)
+            const data = JSON.parse(atob(response.data))
+            setService(data.list_service)
         })
     }, [])
 

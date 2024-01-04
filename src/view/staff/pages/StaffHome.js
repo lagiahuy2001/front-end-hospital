@@ -7,7 +7,8 @@ const StaffHome = () => {
 
     useEffect(() => {
         axios.get('/hospital/staff/get-all-regis-by-staff').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.registration)
         })
     }, [])
 

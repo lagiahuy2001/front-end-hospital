@@ -30,8 +30,9 @@ const AdminManageService = () => {
     const getData = () => {
         setSearch('')
         axios.get('/get-all-service').then((response) => {
-            setData(response.data.list_service)
-            setCountUser(response.data.list_service.length)
+            const data = JSON.parse(atob(response.data))
+            setData(data.list_service)
+            setCountUser(data.list_service.length)
         })
     }
     useEffect(() => {
@@ -110,8 +111,9 @@ const AdminManageService = () => {
             setSearch(e.target.value)
             if(e.target.value != ''){
                 axios.get('/hospital/search-service/' + e.target.value).then((response) => {
-                    setData(response.data)
-                    setCountUser(response.data.length)
+                    const data = JSON.parse(atob(response.data))
+                    setData(data.service)
+                    setCountUser(data.service.length)
                 })
             }
         }

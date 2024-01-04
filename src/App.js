@@ -57,7 +57,8 @@ function App() {
   }
   async function auth() {
     axios.get('/get-user').then((response) => {
-      dispatch(statusLoginActions.login(response.data))
+      const data = JSON.parse(atob(response.data))
+      dispatch(statusLoginActions.login(data.user))
     })
   }
 

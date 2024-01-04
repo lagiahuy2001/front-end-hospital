@@ -16,8 +16,9 @@ const AdminManageRegistrationDetail = () => {
 
     const getData = () => {
         axios.get('/hospital/get-detail-registration/' + params.id).then((response) => {
-            let res = response.data
-            res.created_at = moment(response.data.created_at).format('YYYY-MM-DD')
+            const data = JSON.parse(atob(response.data))
+            let res = data.registration
+            res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
         })
     }
@@ -29,8 +30,9 @@ const AdminManageRegistrationDetail = () => {
         reset(data);
         if (data.status == 3) {
             axios.get('/get-result-registration-service/' + params.id).then((response) => {
-                setResult(response.data.results)
-                setListFill(response.data.listFill)
+                const data = JSON.parse(atob(response.data))
+                setResult(data.results)
+                setListFill(data.listFill)
             })
         }
     }, [data]);
@@ -66,8 +68,9 @@ const AdminManageRegistrationDetail = () => {
         }
         setFillService(event.target.value)
         axios.post('/filter-listResult-regis-service', payload).then((response) => {
-            setResult(response.data.results)
-            setListFill(response.data.listFill)
+            const data = JSON.parse(atob(response.data))
+            setResult(data.results)
+            setListFill(data.listFill)
         })
     };
 

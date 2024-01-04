@@ -20,8 +20,9 @@ const AdminManageServiceDetail = () => {
     };
     const getData = () => {
         axios.get('/hospital/admin/get-service-detail/' + params.id).then((response) => {
-            setData(response.data)
-            setAdditionalInformation(response.data.additional_information)
+            const data = JSON.parse(atob(response.data))
+            setData(data.service)
+            setAdditionalInformation(data.service.additional_information)
         })
     }
 
@@ -47,7 +48,8 @@ const AdminManageServiceDetail = () => {
 
         axios.post('/hospital/admin/update-service', payload)
             .then((response) => {
-                setData(response.data)
+                const data = JSON.parse(atob(response.data))
+                setData(data.service)
                 setIsUpdate(false)
             })
             .catch(response => {

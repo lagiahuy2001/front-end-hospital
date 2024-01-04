@@ -14,7 +14,8 @@ const AdminHome = () => {
     const [data, setData] = useState([])
     const getData = () => {
         axios.get('/hospital/admin/statistics-now-year').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.finalResult)
         })
     }
 

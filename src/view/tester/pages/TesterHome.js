@@ -8,7 +8,8 @@ const TesterHome = () => {
 
     useEffect(() => {
         axios.get('/hospital/tester/list-registration-service').then((response) => {
-            setData(response.data)
+            const data = JSON.parse(atob(response.data))
+            setData(data.registration_service)
         })
     }, [])
 

@@ -17,8 +17,9 @@ const TesterDetail = () => {
 
     useEffect(() => {
         axios.get('/hospital/tester/get-detail-regis-service/' + params.id).then((response) => {
-            setData(response.data)
-            setAdditionalInformation(JSON.parse(response.data.additional_information ?? []))
+            const data = JSON.parse(atob(response.data))
+            setData(data.registration)
+            setAdditionalInformation(JSON.parse(data.registration.additional_information ?? []))
         })
     }, [])
 

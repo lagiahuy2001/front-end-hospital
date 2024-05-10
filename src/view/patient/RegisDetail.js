@@ -106,6 +106,7 @@ const RegisDetail = () => {
                     document.getElementById(`fileResult${item.id}`).style.width = "21cm";
                     document.getElementById(`fileResult${item.id}`).style.height = "29.7cm";
                     document.getElementById(`fileResult${item.id}`).style.padding = "10mm 20mm 20mm 30mm";
+                    document.getElementById(`advise_${item.id}`).style.display = "none";
                 },
             });
 
@@ -323,7 +324,7 @@ const RegisDetail = () => {
                                                         </tr>
                                                     ))
                                                 }
-                                                <tr>
+                                                <tr id={`advise_${item.id}`}>
                                                     <td><b>Tư vấn</b></td>
                                                     <td colSpan={4}>{item.advise}</td>
                                                 </tr>

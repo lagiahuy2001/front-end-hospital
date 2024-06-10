@@ -300,7 +300,7 @@ const AdminMangeUser = () => {
             aria-describedby="alert-dialog-slide-description"
             TransitionComponent={Transition}
         >
-            <DialogTitle>{"Bệnh viện Hồng Ngọc"}</DialogTitle>
+            <DialogTitle>{"Bệnh viện "}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
                     Thêm người dùng thành công

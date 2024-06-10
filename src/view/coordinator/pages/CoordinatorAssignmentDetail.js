@@ -300,7 +300,7 @@ const CoordinatorAssignmentDetail = () => {
                 onClose={handleCloseDialog1}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Bệnh viện Hồng Ngọc"}</DialogTitle>
+                <DialogTitle>{"Bệnh viện "}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                         Đơn đăng ký đã được hủy

@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "../../components/ScrollToTop";
+import Chatbot from "../../components/Chatbot";
 
 const DefaultLayout = () => {
     return (
@@ -12,6 +13,7 @@ const DefaultLayout = () => {
             <Header/>
             <Outlet />
             <Footer/>
+            <Chatbot/>
         </div>
     )
 };

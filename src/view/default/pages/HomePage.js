@@ -253,7 +253,7 @@ const HomePage = () => {
                                     <h4 className="card-title" style={{ textAlign: "justify"}}>Từ những ngày đầu đi vào hoạt động, bệnh viện đã từng bước tạo dựng uy tín và danh tiếng – khách sạn tiên phong ở Hà Nội cũng như toàn khu vực miền Bắc.</h4>
                                     <div className={"row"}>
                                         <div className={"col-6"}>
-                                            <img src={logo} style={{width:"100%"}}/>
+                                            <img src={logo} style={{ width: "100%"}}/>
                                         </div>
                                         <div className={"col-6"} style={{ textAlign: "justify"}}>
                                             Với đội ngũ bác sĩ giỏi chuyên môn, liên tục cập nhật những phương pháp điều trị hiện đại, Bệnh viện KMA luôn không ngừng phấn đấu để khẳng định sứ mệnh lớn lao mà mình theo đuổi bằng việc trở thành hệ thống y tế tư nhân hàng đầu Việt Nam.

@@ -81,7 +81,7 @@ const Header = () => {
         <header style={{borderBlockEnd: "solid 2px #008000", zIndex: 11}}>
             <nav className="navbar navbar-expand-lg" style={{backgroundColor: "white", height: "125px"}}>
                 <div className="container-fluid">
-                    <Link to="/" className="navbar-brand"><img src={logo}/></Link>
+                    <Link to="/" className="navbar-brand"><img src={logo} style={{height: "90px", width: "104px"}}/></Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">

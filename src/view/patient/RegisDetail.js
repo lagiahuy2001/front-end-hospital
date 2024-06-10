@@ -336,7 +336,7 @@ const RegisDetail = () => {
                                                     <span><i>(Ký ghi rõ họ tên)</i></span>
                                                 </div>
                                                 <div className="col-6 text-center">
-                                                    <h3>Bệnh viện Hồng Ngọc</h3>
+                                                    <h3>Bệnh viện </h3>
                                                     <h4>Đại diện</h4>
                                                     <span><i>(Ký ghi rõ họ tên)</i></span>
                                                 </div>

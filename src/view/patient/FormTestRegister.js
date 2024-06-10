@@ -210,7 +210,7 @@ const FormTestRegister = () => {
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Bệnh viện Hồng Ngọc"}</DialogTitle>
+                <DialogTitle>{"Bệnh viện "}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                         Đơn đăng ký lấy mẫu xét nghiệm tại nhà của bạn đã được bệnh viện ghi nhận. Bệnh viện sẽ liên hệ cho bạn để xác nhận lại các thông tin.

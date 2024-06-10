@@ -241,7 +241,7 @@ const StaffRegisDetail = () => {
                 onClose={handleCloseDialog1}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Bệnh viện Hồng Ngọc thông báo"}</DialogTitle>
+                <DialogTitle>{"Bệnh viện  thông báo"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                         Các chỉ định đã được thêm

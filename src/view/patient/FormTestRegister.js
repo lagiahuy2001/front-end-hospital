@@ -6,6 +6,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import {forwardRef, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import { listDistrict, listWard } from "../../plugins/addressConstant"
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -15,6 +16,8 @@ const FormTestRegister = () => {
     const navigate = useNavigate();
     const [data, setData] = useState({})
     const [listService, setListService] = useState([])
+    const [wards, setWards] = useState([])
+    const districts = listDistrict()
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm({});
 
@@ -39,7 +42,6 @@ const FormTestRegister = () => {
 
     const onSubmit = (data) => {
         const payload = {
-            address_appointment: data.address_appointment,
             date_appointment: data.date_appointment,
             note: data.note,
             user_date: data.date,
@@ -47,6 +49,10 @@ const FormTestRegister = () => {
             user_phone: data.phone,
             user_name: data.name,
             user_sex: data.sex,
+            time_appointment: data.time_appointment,
+            district_appointment: data.district_appointment,
+            ward_appointment: data.ward_appointment,
+            street_appointment: data.street_appointment,
         }
         axios.post('/app/create-registration', payload).then((response) => {
             setDialog(true)
@@ -56,6 +62,14 @@ const FormTestRegister = () => {
     const handleClose = () => {
         setDialog(false);
         navigate("/")
+    }
+
+    const getListWard = (district) => {
+        if(district){
+            setWards(listWard(district))
+        } else {
+            setWards([])
+        }
     }
 
     return (
@@ -89,6 +103,7 @@ const FormTestRegister = () => {
                             <div className="mb-3">
                                 <label className="form-label">Số điện thoại *</label>
                                 <input type="number"
+                                       placeholder="Vui lòng nhập số điện thoại"
                                        className={errors.phone ? 'form-control is-invalid' : 'form-control'}
                                        {...register("phone", {
                                            required: 'Số điện thoại là bắt buộc!',
@@ -101,6 +116,7 @@ const FormTestRegister = () => {
                             <div className="mb-3">
                                 <label className="form-label">Email *</label>
                                 <input type="email"
+                                       placeholder="Vui lòng nhập email"
                                        className={errors.email ? 'form-control is-invalid' : 'form-control'}
                                        {...register("email", {
                                            required: 'Email là bắt buộc!',
@@ -111,32 +127,6 @@ const FormTestRegister = () => {
                                        })}
                                 />
                                 <p style={{color: "red"}}>{errors.email?.message}</p>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Ngày dự kiến lấy mẫu *</label>
-                                <input type="date"
-                                       className={errors.date_appointment ? 'form-control is-invalid' : 'form-control'}
-                                       {...register("date_appointment", {required: 'Ngày dự kiến là bắt buộc!'})}
-                                />
-                                <p style={{color: "red"}}>{errors.date_appointment?.message}</p>
-                            </div>
-                        </div>
-                        <div className="col-6">
-                            <div className="mb-3">
-                                <label className="form-label">Họ và tên *</label>
-                                <input
-                                    className={errors.name ? 'form-control is-invalid' : 'form-control'}
-                                    {...register("name", {required: 'Họ và tên là bắt buộc!'})}
-                                />
-                                <p style={{color: "red"}}>{errors.name?.message}</p>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Ngày sinh *</label>
-                                <input type="date"
-                                       className={errors.date ? 'form-control is-invalid' : 'form-control'}
-                                       {...register("date", {required: 'Ngày sinh là bắt buộc!'})}
-                                />
-                                <p style={{color: "red"}}>{errors.date?.message}</p>
                             </div>
                             <div className="mb-4">
                                 <p className="form-label mb-3">Giới tính *</p>
@@ -157,19 +147,92 @@ const FormTestRegister = () => {
                                 <p style={{color: "red"}}>{errors.sex?.message}</p>
                             </div>
                         </div>
+                        <div className="col-6">
+                            <div className="mb-3">
+                                <label className="form-label">Họ và tên *</label>
+                                <input
+                                    placeholder="Vui lòng nhập họ tên"
+                                    className={errors.name ? 'form-control is-invalid' : 'form-control'}
+                                    {...register("name", {required: 'Họ và tên là bắt buộc!'})}
+                                />
+                                <p style={{color: "red"}}>{errors.name?.message}</p>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Ngày sinh *</label>
+                                <input type="date"
+                                       className={errors.date ? 'form-control is-invalid' : 'form-control'}
+                                       {...register("date", {required: 'Ngày sinh là bắt buộc!'})}
+                                />
+                                <p style={{color: "red"}}>{errors.date?.message}</p>
+                            </div>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-6">
                             <div className="mb-3">
-                                <label className="form-label">Địa điểm lấy mẫu xét nghiệm *</label>
-                                <textarea
-                                    className={errors.address_appointment ? 'form-control is-invalid' : 'form-control'}
-                                    {...register("address_appointment", {required: 'Địa điểm lấy mẫu là bắt buộc!'})}
+                                <label className="form-label">Ngày dự kiến lấy mẫu *</label>
+                                <input type="date"
+                                       className={errors.date_appointment ? 'form-control is-invalid' : 'form-control'}
+                                       {...register("date_appointment", {required: 'Ngày dự kiến là bắt buộc!'})}
                                 />
-                                <p style={{color: "red"}}>{errors.address_appointment?.message}</p>
+                                <p style={{color: "red"}}>{errors.date_appointment?.message}</p>
                             </div>
                         </div>
                         <div className="col-6">
+                            <div className="mb-3">
+                                <label className="form-label">Thời gian dự kiến lấy mẫu *</label>
+                                <input type="time"
+                                       className={errors.time_appointment ? 'form-control is-invalid' : 'form-control'}
+                                       {...register("time_appointment", {required: 'Thời gian dự kiến là bắt buộc!'})}
+                                />
+                                <p style={{color: "red"}}>{errors.time_appointment?.message}</p>
+                            </div>
+                        </div>
+                        <div className="col-12">
+                            <div className="mb-3">
+                                <label className="form-label">Địa điểm lấy mẫu xét nghiệm *</label>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <select
+                                            className={errors.district_appointment ? 'form-select is-invalid' : 'form-select'}
+                                            {...register("district_appointment", {required: 'Địa chỉ là bắt buộc!'})}
+                                            onChange={(e) => getListWard(e.target.value)}
+                                        >
+                                            <option selected value="">Vui lòng chọn quận/huyện/thị xã</option>
+                                            {
+                                                districts.map(item => <option
+                                                    key={item.ward}
+                                                    value={item.district}>{item.district}</option>)
+                                            }
+                                        </select>
+                                        <p style={{color: "red"}}>{errors.district_appointment?.message}</p>
+                                    </div>
+                                    <div className="col-6">
+                                        <select
+                                            className={errors.ward_appointment ? 'form-select is-invalid' : 'form-select'}
+                                            {...register("ward_appointment", {required: 'Địa chỉ là bắt buộc!'})}
+                                            disabled={wards.length === 0}
+                                        >
+                                            <option value="">Vui lòng chọn phường/xã</option>
+                                            {wards.length > 0 && wards.map(item => (
+                                                <option key={item.ward}
+                                                        value={item.ward}>{item.ward}</option>
+                                            ))}
+                                        </select>
+                                        <p style={{color: "red"}}>{errors.ward_appointment?.message}</p>
+                                    </div>
+                                    <div className="col-12">
+                                        <input type="text"
+                                               placeholder="Vui lòng nhập địa chỉ đường phố"
+                                               className={errors.street_appointment ? 'form-control is-invalid' : 'form-control'}
+                                               {...register("street_appointment", {
+                                                   required: 'Địa chỉ là bắt buộc!',
+                                               })}
+                                        />
+                                        <p style={{color: "red"}}>{errors.street_appointment?.message}</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="mb-3">
                                 <label className="form-label">Lưu ý tới nhân viên lấy mẫu</label>
                                 <textarea className="form-control"
@@ -180,7 +243,10 @@ const FormTestRegister = () => {
                     </div>
                     <hr/>
                     <div className="text-center">
-                        <p><i>Các thông tin mà khách hàng cung cấp sẽ được bệnh viện bảo mật tuyệt đối! Khánh hàng có thể tìm hiểu thêm về chính sách bảo mật của bệnh viện <a style={{color :"blue", cursor: "pointer"}} data-bs-toggle="modal" data-bs-target="#exampleModal">tại đây</a></i></p>
+                        <p><i>Các thông tin mà khách hàng cung cấp sẽ được bệnh viện bảo mật tuyệt đối! Khánh hàng có
+                            thể tìm hiểu thêm về chính sách bảo mật của bệnh viện <a
+                                style={{color: "blue", cursor: "pointer"}} data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">tại đây</a></i></p>
                     </div>
                     <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
                          aria-hidden="true">

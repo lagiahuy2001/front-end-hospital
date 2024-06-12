@@ -42,7 +42,7 @@ const CoordinatorAssignment = () => {
                     <th scope="col">Tên bệnh nhân</th>
                     <th scope="col">Số điện thoại</th>
                     <th scope="col">Đã liên lạc</th>
-                    <th scope="col">Thời gian</th>
+                    <th scope="col">Thời gian khởi tạo</th>
                 </tr>
                 </thead>
                 <tbody>

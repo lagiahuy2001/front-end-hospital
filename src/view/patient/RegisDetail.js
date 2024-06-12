@@ -149,11 +149,10 @@ const RegisDetail = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Ngày dự kiến lấy mẫu</label>
-                        <input type="date"
-                               disabled
-                               className='form-control'
-                               {...register("date_appointment")}
+                        <label className="form-label">Giới tính</label>
+                        <input disabled
+                               value={data.user_sex == 1 ? "Nam" : "Nữ"}
+                               className="form-control"
                         />
                     </div>
                 </div>
@@ -174,17 +173,18 @@ const RegisDetail = () => {
                                {...register("user_date")}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Giới tính</label>
-                        <input disabled
-                               value={data.user_sex == 1 ? "Nam" : "Nữ"}
-                               className="form-control"
-                        />
-                    </div>
                 </div>
             </div>
             <div className="row">
                 <div className="col-6">
+                    <div className="mb-3">
+                        <label className="form-label">Ngày dự kiến lấy mẫu</label>
+                        <input type="date"
+                               disabled
+                               className='form-control'
+                               {...register("date_appointment")}
+                        />
+                    </div>
                     <div className="mb-3">
                         <label className="form-label">Địa điểm lấy mẫu xét nghiệm</label>
                         <textarea
@@ -203,6 +203,14 @@ const RegisDetail = () => {
                     </div>
                 </div>
                 <div className="col-6">
+                    <div className="mb-3">
+                        <label className="form-label">Thời gian dự kiến lấy mẫu</label>
+                        <input type="time"
+                               disabled
+                               className='form-control'
+                               {...register("time_appointment")}
+                        />
+                    </div>
                     <div className="mb-3">
                         <label className="form-label">Lưu ý tới nhân viên lấy mẫu</label>
                         <textarea

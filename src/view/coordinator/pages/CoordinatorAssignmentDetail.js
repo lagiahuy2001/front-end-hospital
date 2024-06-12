@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 import moment from "moment/moment";
+import {listDistrict, listWard} from "../../../plugins/addressConstant";
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -30,6 +31,8 @@ const CoordinatorAssignmentDetail = () => {
     const [snackbar, setSnackbar] = useState(false);
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [listStaff, setListStaff] = useState([])
+    const [wards, setWards] = useState([])
+    const districts = listDistrict()
 
     const {
         register: register2,
@@ -48,6 +51,9 @@ const CoordinatorAssignmentDetail = () => {
             let res = data.registration
             res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
+            if(res.district_appointment){
+                getListWard(res.district_appointment)
+            }
         })
     }
 
@@ -69,7 +75,7 @@ const CoordinatorAssignmentDetail = () => {
         <input type="radio"
                className={errors.user_sex ? 'form-check-input is-invalid' : 'form-check-input'}
                {...register("user_sex", {required: 'Giới tính là bắt buộc!'})}
-               value="1"
+               value="1" checked={data.user_sex == '1'}
         />
         <label className="form-check-label"
                style={{marginLeft: "10px", marginRight: "100px"}}>Nam</label>
@@ -77,7 +83,7 @@ const CoordinatorAssignmentDetail = () => {
         <input type="radio"
                className={errors.user_sex ? 'form-check-input is-invalid' : 'form-check-input'}
                {...register("user_sex", {required: 'Giới tính là bắt buộc!'})}
-               value="0"
+               value="0" checked={data.user_sex == '0'}
         />
         <label className="form-check-label" style={{marginLeft: "10px"}}>Nữ</label>
         <p style={{color: "red"}}>{errors.user_sex?.message}</p>
@@ -108,9 +114,12 @@ const CoordinatorAssignmentDetail = () => {
             user_date: data.user_date,
             date_appointment: data.date_appointment,
             user_sex: data.user_sex,
-            address_appointment: data.address_appointment,
             note: data.note,
             id: data.id,
+            time_appointment: data.time_appointment,
+            district_appointment: data.district_appointment,
+            ward_appointment: data.ward_appointment,
+            street_appointment: data.street_appointment,
         }
         axios.post('/hospital/coordinator/update-registration', payload).then((response) => {
             const data = JSON.parse(atob(response.data))
@@ -154,6 +163,13 @@ const CoordinatorAssignmentDetail = () => {
         }
         setSnackbar(false);
     };
+    const getListWard = (district) => {
+        if(district){
+            setWards(listWard(district))
+        } else {
+            setWards([])
+        }
+    }
     return (
         <div className="box">
             {!isUpdate && <div className="mb-3 hstack gap-3">
@@ -204,13 +220,8 @@ const CoordinatorAssignmentDetail = () => {
                             <p style={{color: "red"}}>{errors.user_email?.message}</p>
                         </div>
                         <div className="mb-3">
-                            <label className="form-label">Ngày dự kiến lấy mẫu</label>
-                            <input type="date"
-                                   disabled={!isUpdate}
-                                   className={errors.date_appointment ? 'form-control is-invalid' : 'form-control'}
-                                   {...register("date_appointment", {required: 'Ngày dự kiến là bắt buộc!'})}
-                            />
-                            <p style={{color: "red"}}>{errors.date_appointment?.message}</p>
+                            <p className="form-label mb-3">Giới tính</p>
+                            {sexValue}
                         </div>
                     </div>
                     <div className="col-6">
@@ -232,22 +243,61 @@ const CoordinatorAssignmentDetail = () => {
                             />
                             <p style={{color: "red"}}>{errors.user_date?.message}</p>
                         </div>
-                        <div className="mb-4">
-                            <p className="form-label mb-3">Giới tính</p>
-                            {sexValue}
-                        </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-6">
                         <div className="mb-3">
-                            <label className="form-label">Địa điểm lấy mẫu xét nghiệm</label>
-                            <textarea
-                                disabled={!isUpdate}
-                                className={errors.address_appointment ? 'form-control is-invalid' : 'form-control'}
-                                {...register("address_appointment", {required: 'Địa điểm lấy mẫu là bắt buộc!'})}
+                            <label className="form-label">Ngày dự kiến lấy mẫu</label>
+                            <input type="date"
+                                   disabled={!isUpdate}
+                                   className={errors.date_appointment ? 'form-control is-invalid' : 'form-control'}
+                                   {...register("date_appointment", {required: 'Ngày dự kiến là bắt buộc!'})}
                             />
-                            <p style={{color: "red"}}>{errors.address_appointment?.message}</p>
+                            <p style={{color: "red"}}>{errors.date_appointment?.message}</p>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Địa điểm lấy mẫu xét nghiệm</label>
+                            {!isUpdate && <textarea
+                                disabled={!isUpdate}
+                                className="form-control"
+                                {...register("address_appointment")}
+                            />}
+                            {isUpdate && <>
+                                <select
+                                    className={errors.district_appointment ? 'form-select is-invalid mb-3' : 'form-select mb-3'}
+                                    {...register("district_appointment", {required: 'Địa chỉ là bắt buộc!'})}
+                                    onChange={(e) => getListWard(e.target.value)}
+                                >
+                                    <option selected value="">Vui lòng chọn quận/huyện/thị xã</option>
+                                    {
+                                        districts.map(item => <option
+                                            key={item.ward}
+                                            value={item.district}>{item.district}</option>)
+                                    }
+                                </select>
+                                <p style={{color: "red"}}>{errors.district_appointment?.message}</p>
+                                <select
+                                    className={errors.ward_appointment ? 'form-select is-invalid mb-3' : 'form-select mb-3'}
+                                    {...register("ward_appointment", {required: 'Địa chỉ là bắt buộc!'})}
+                                    disabled={wards.length === 0}
+                                >
+                                    <option value="">Vui lòng chọn phường/xã</option>
+                                    {wards.length > 0 && wards.map(item => (
+                                        <option key={item.ward}
+                                                value={item.ward}>{item.ward}</option>
+                                    ))}
+                                </select>
+                                <p style={{color: "red"}}>{errors.ward_appointment?.message}</p>
+                                <input type="text"
+                                       placeholder="Vui lòng nhập địa chỉ đường phố"
+                                       className={errors.street_appointment ? 'form-control is-invalid' : 'form-control'}
+                                       {...register("street_appointment", {
+                                           required: 'Địa chỉ là bắt buộc!',
+                                       })}
+                                />
+                                <p style={{color: "red"}}>{errors.street_appointment?.message}</p>
+                            </>}
                         </div>
                         {!isUpdate && <div className="mb-3">
                             <label className="form-label">Ngày khởi tạo</label>
@@ -259,6 +309,15 @@ const CoordinatorAssignmentDetail = () => {
                         </div>}
                     </div>
                     <div className="col-6">
+                        <div className="mb-3">
+                            <label className="form-label">Thời gian dự kiến lấy mẫu</label>
+                            <input type="time"
+                                   disabled={!isUpdate}
+                                   className={errors.time_appointment ? 'form-control is-invalid' : 'form-control'}
+                                   {...register("time_appointment", {required: 'Ngày dự kiến là bắt buộc!'})}
+                            />
+                            <p style={{color: "red"}}>{errors.time_appointment?.message}</p>
+                        </div>
                         <div className="mb-3">
                             <label className="form-label">Lưu ý tới nhân viên lấy mẫu</label>
                             <textarea

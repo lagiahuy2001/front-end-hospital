@@ -435,7 +435,7 @@ const CoordinatorAssignmentDetail = () => {
                                 <Select label="Danh sách nhân viên"
                                         labelId="demo-simple-select-label" {...register2("staff_id", {required: "Hãy lựa chọn 1 nhân viên!"})}>
                                     {listStaff.map((i) => (
-                                        <MenuItem value={i.id}>{i.id} - {i.name}</MenuItem>))}
+                                        <MenuItem value={i.id}>{i.id} - {i.name} - {i.phone}</MenuItem>))}
                                 </Select>
                             </FormControl>
                             <p style={{color: "red", marginTop:"10px"}}>{errors2.staff_id?.message}</p>

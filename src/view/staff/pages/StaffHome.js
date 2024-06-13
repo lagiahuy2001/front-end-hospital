@@ -24,7 +24,7 @@ const StaffHome = () => {
                 <td>{item.user_sex == 1 ? 'Nam' : 'Nữ'}</td>
                 <td>{item.user_date}</td>
                 <td>{item.user_phone}</td>
-                <td>{item.date_appointment}</td>
+                <td>{item.date_appointment} {item.time_appointment}</td>
                 <td>{item.address_appointment}</td>
                 <td>{item.note}</td>
             </tr>

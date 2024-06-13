@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import {useForm} from "react-hook-form";
 import MuiAlert from "@mui/material/Alert";
+import {listDistrict, listWard} from "../../../plugins/addressConstant";
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,6 +27,8 @@ const AdminMangeUser = () => {
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [countUser, setCountUser] = useState(0);
     const [listRoles, setListRoles] = useState([]);
+    const [wards, setWards] = useState([])
+    const districts = listDistrict()
 
     const getData = () => {
         setFill(0)
@@ -133,6 +136,13 @@ const AdminMangeUser = () => {
         setDialog(false);
     }
 
+    const getListWard = (district) => {
+        if(district){
+            setWards(listWard(district))
+        } else {
+            setWards([])
+        }
+    }
     return(
         <div className="box">
             <label className="mb-3 h3" >Tổng số lượng người dùng: {countUser}</label>
@@ -234,11 +244,39 @@ const AdminMangeUser = () => {
 
                             <div className="mb-3">
                                 <label className="form-label">Địa chỉ *</label>
-                                <input
-                                    className={errors.address ? 'form-control is-invalid' : 'form-control'}
-                                    {...register("address", {required: 'Địa chỉ là bắt buộc!'})}
+                                <select
+                                    className={errors.address_district ? 'form-select is-invalid mb-3' : 'form-select mb-3'}
+                                    {...register("address_district", {required: 'Địa chỉ là bắt buộc!'})}
+                                    onChange={(e) => getListWard(e.target.value)}
+                                >
+                                    <option selected value="">Vui lòng chọn quận/huyện/thị xã</option>
+                                    {
+                                        districts.map(item => <option
+                                            key={item.ward}
+                                            value={item.district}>{item.district}</option>)
+                                    }
+                                </select>
+                                <p style={{color: "red"}}>{errors.address_district?.message}</p>
+                                <select
+                                    className={errors.address_ward ? 'form-select is-invalid mb-3' : 'form-select mb-3'}
+                                    {...register("address_ward", {required: 'Địa chỉ là bắt buộc!'})}
+                                    disabled={wards.length === 0}
+                                >
+                                    <option value="">Vui lòng chọn phường/xã</option>
+                                    {wards.length > 0 && wards.map(item => (
+                                        <option key={item.ward}
+                                                value={item.ward}>{item.ward}</option>
+                                    ))}
+                                </select>
+                                <p style={{color: "red"}}>{errors.address_ward?.message}</p>
+                                <input type="text"
+                                       placeholder="Vui lòng nhập địa chỉ đường phố"
+                                       className={errors.address_street ? 'form-control is-invalid' : 'form-control'}
+                                       {...register("address_street", {
+                                           required: 'Địa chỉ là bắt buộc!',
+                                       })}
                                 />
-                                <p style={{color: "red"}}>{errors.address?.message}</p>
+                                <p style={{color: "red"}}>{errors.address_street?.message}</p>
                             </div>
 
                             <div className="mb-3">

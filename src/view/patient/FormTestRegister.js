@@ -133,7 +133,7 @@ const FormTestRegister = () => {
                                 <input type="radio"
                                        className={errors.sex ? 'form-check-input is-invalid' : 'form-check-input'}
                                        {...register("sex", {required: 'Giới tính là bắt buộc!'})}
-                                       value="1" checked={data.sex == '1'}
+                                       value="1" 
                                 />
                                 <label className="form-check-label"
                                        style={{marginLeft: "10px", marginRight: "100px"}}>Nam</label>
@@ -141,7 +141,7 @@ const FormTestRegister = () => {
                                 <input type="radio"
                                        className={errors.sex ? 'form-check-input is-invalid' : 'form-check-input'}
                                        {...register("sex", {required: 'Giới tính là bắt buộc!'})}
-                                       value="0" checked={data.sex == '0'}
+                                       value="0" 
                                 />
                                 <label className="form-check-label" style={{marginLeft: "10px"}}>Nữ</label>
                                 <p style={{color: "red"}}>{errors.sex?.message}</p>

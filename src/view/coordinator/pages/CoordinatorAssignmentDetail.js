@@ -59,7 +59,7 @@ const CoordinatorAssignmentDetail = () => {
 
     useEffect(() => {
         getData();
-        axios.get('/hospital/coordinator/get-all-staff').then((response) => {
+        axios.get('/hospital/coordinator/get-all-staff/'  + params.id).then((response) => {
             const data = JSON.parse(atob(response.data))
             setListStaff(data.staff)
         })
@@ -75,7 +75,7 @@ const CoordinatorAssignmentDetail = () => {
         <input type="radio"
                className={errors.user_sex ? 'form-check-input is-invalid' : 'form-check-input'}
                {...register("user_sex", {required: 'Giới tính là bắt buộc!'})}
-               value="1" checked={data.user_sex == '1'}
+               value="1"
         />
         <label className="form-check-label"
                style={{marginLeft: "10px", marginRight: "100px"}}>Nam</label>
@@ -83,7 +83,7 @@ const CoordinatorAssignmentDetail = () => {
         <input type="radio"
                className={errors.user_sex ? 'form-check-input is-invalid' : 'form-check-input'}
                {...register("user_sex", {required: 'Giới tính là bắt buộc!'})}
-               value="0" checked={data.user_sex == '0'}
+               value="0"
         />
         <label className="form-check-label" style={{marginLeft: "10px"}}>Nữ</label>
         <p style={{color: "red"}}>{errors.user_sex?.message}</p>

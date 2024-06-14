@@ -160,20 +160,20 @@ const AdminManageService = () => {
                             <div className="mb-3">
                                 <label className="form-label">Tên dịch vụ *</label>
                                 <input
-                                    className={errors.name ? 'form-control is-invalid' : 'form-control'}
+                                    className={errors.service_name ? 'form-control is-invalid' : 'form-control'}
                                     {...register("service_name", {required: 'Tên dịch vụ là bắt buộc!'})}
                                 />
-                                <p style={{color: "red"}}>{errors.name?.message}</p>
+                                <p style={{color: "red"}}>{errors.service_name?.message}</p>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Giá dịch vụ *</label>
                                 <input type="number"
-                                       className={errors.phone ? 'form-control is-invalid' : 'form-control'}
+                                       className={errors.price ? 'form-control is-invalid' : 'form-control'}
                                        {...register("price", {
                                            required: 'Giá dịch vụ là bắt buộc!',
                                        })}
                                 />
-                                <p style={{color: "red"}}>{errors.phone?.message}</p>
+                                <p style={{color: "red"}}>{errors.price?.message}</p>
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Thiết bị thực hiện *</label>

@@ -1,5 +1,5 @@
 import {Link, useParams} from "react-router-dom";
-import React, {useEffect, useRef, useState} from "react";
+import React, {forwardRef, useEffect, useRef, useState} from "react";
 import axios from "../../plugins/axios";
 import {useForm} from "react-hook-form";
 import {
@@ -12,13 +12,95 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select, Typography
+    Select, Slide, Typography
 } from "@mui/material";
 
 import logo from '../../assets/logo.png'
 import html2canvas from "html2canvas";
 import {jsPDF} from "jspdf";
 import moment from 'moment';
+const FormTwo = ({clinic, reload, registration_id}) => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const [dialog, setDialog] = useState(false);
+
+    const handleClose = () => {
+        setDialog(false);
+        reload()
+    }
+
+    const onSubmit = (data) => {
+        const payload = {...data, registration_id: registration_id}
+        axios.post('/app/create-schedule', payload).then((response) => {
+            setDialog(true)
+        })
+        reset();
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <DialogContentText>
+                    Thông tin:
+                </DialogContentText>
+                <Box sx={{marginTop: "10px"}}>
+                    <div className="mb-3">
+                        <label className="form-label">Chi nhánh *</label>
+                        <select
+                            className={errors.clinic_id ? 'form-select is-invalid mb-3' : 'form-select mb-3'}
+                            {...register("clinic_id", {required: 'Chi nhánh là bắt buộc!'})}
+                        >
+                            <option selected value="">Vui lòng chọn chi nhánh</option>
+                            {
+                                clinic.map(item => <option
+                                    key={item.id}
+                                    value={item.id}>{item.name} - {item.address}</option>)
+                            }
+                        </select>
+                        <p style={{color: "red"}}>{errors.clinic_id?.message}</p>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Ngày dự kiến *</label>
+                        <input type="date"
+                               className={errors.date ? 'form-control is-invalid' : 'form-control'}
+                               {...register("date", {required: 'Ngày dự kiến là bắt buộc!'})}
+                        />
+                        <p style={{color: "red"}}>{errors.date?.message}</p>
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Thời gian dự kiến *</label>
+                        <input type="time"
+                               className={errors.time ? 'form-control is-invalid' : 'form-control'}
+                               {...register("time", {required: 'Thời gian dự kiến là bắt buộc!'})}
+                        />
+                        <p style={{color: "red"}}>{errors.time?.message}</p>
+                    </div>
+                </Box>
+                <button className="btn btn-success mt-3" type="submit">Đăng ký lịch khám</button>
+            </form>
+            <Dialog
+                open={dialog}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>{"Bệnh viện "}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        Đơn đăng ký lấy mẫu xét nghiệm tại nhà của bạn đã được bệnh viện ghi nhận. Bệnh viện sẽ liên hệ
+                        cho bạn để xác nhận lại các thông tin.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Xác nhận</Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+};
+const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function ExpandMoreIcon() {
     return null;
@@ -27,10 +109,12 @@ function ExpandMoreIcon() {
 const RegisDetail = () => {
     const params = useParams();
     const [data, setData] = useState({});
+    const [schedule, setSchedule] = useState(null);
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [result, setResult] = useState([]);
     const [listFill, setListFill] = useState([]);
     const [fillService, setFillService] = useState(0)
+    const [clinic, setClinic] = useState([]);
 
     const getData = () => {
         axios.get('/app/get-detail-registration/' + params.id).then((response) => {
@@ -38,7 +122,15 @@ const RegisDetail = () => {
             let res = data.registration
             res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
+            if(data.schedule){
+                setSchedule(data.schedule)
+            }
         })
+        axios.get('/get-all-clinic').then((response) => {
+            const data = JSON.parse(atob(response.data))
+            setClinic(data.list_clinic)
+        })
+        setDialog3(false)
     }
     useEffect(() => {
         getData();
@@ -73,10 +165,14 @@ const RegisDetail = () => {
         }
     }
     const [dialog2, setDialog2] = useState(false);
+    const [dialog3, setDialog3] = useState(false);
 
     const handleCloseDialog2 = () => {
         setDialog2(false);
         setFillService(0)
+    }
+    const handleCloseDialog3 = () => {
+        setDialog3(false);
     }
 
     const handleChange = (event) => {
@@ -123,7 +219,6 @@ const RegisDetail = () => {
 
         pdf.save("Kết quả xét nghiệm");
     };
-
 
     return (
         <main style={{padding: "100px"}}>
@@ -227,12 +322,21 @@ const RegisDetail = () => {
                         />
                     </div>
                 </div>
+                {data.status == 3 && schedule && <div className="col-12">
+                    <label className="form-label">Đã đăng ký lịch khám
+                        tại {schedule.name} vào {schedule.time} ngày {schedule.date}</label>
+                </div>}
             </div>
             <hr/>
             {data.status == 3 ? <button className="btn btn-success" onClick={() => {
                 setDialog2(true)
             }} style={{marginRight: "10px"}}>
                 Xem kết quả
+            </button> : ''}
+            {data.status == 3 && !schedule ? <button className="btn btn-primary" onClick={() => {
+                setDialog3(true)
+            }} style={{marginRight: "10px"}}>
+                Đăng ký lịch khám bệnh
             </button> : ''}
             <Link to="/patient/profile">
                 <button className="btn btn-secondary">Trở về</button>
@@ -358,6 +462,23 @@ const RegisDetail = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleCloseDialog2}>Đóng</Button>
+                    </DialogActions>
+                </Dialog> : ''}
+
+            {data.status == 3 && !schedule ?
+                <Dialog
+                    fullWidth={true}
+                    maxWidth={"xl"}
+                    open={dialog3}
+                    onClose={handleCloseDialog3}
+                    TransitionComponent={Transition}
+                >
+                    <DialogTitle>Đăng ký lịch khám bệnh</DialogTitle>
+                    <DialogContent style={{height: "500px"}}>
+                        <FormTwo clinic={clinic} reload={getData} registration_id={data.id}/>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog3}>Đóng</Button>
                     </DialogActions>
                 </Dialog> : ''}
         </main>

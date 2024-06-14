@@ -36,6 +36,18 @@ const AdminDashboard = () => {
                                 Quản lý dịch vụ
                             </li>
                         </Link>
+                        <Link to="/admin/manage-clinic" className="link">
+                            <li className={location.pathname.endsWith("manage-clinic") ? "dashboardItem active" : "dashboardItem"}>
+                                <Timeline className="dashboardIcon"/>
+                                Quản lý chi nhánh
+                            </li>
+                        </Link>
+                        <Link to="/admin/manage-schedule" className="link">
+                            <li className={location.pathname.endsWith("manage-schedule") ? "dashboardItem active" : "dashboardItem"}>
+                                <Timeline className="dashboardIcon"/>
+                                Quản lý lịch khám bệnh
+                            </li>
+                        </Link>
                     </ul>
                 </div>
             </div>

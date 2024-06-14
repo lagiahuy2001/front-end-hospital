@@ -37,6 +37,10 @@ import AdminManageRegistrationDetail from "./view/admin/pages/AdminManageRegistr
 import jwt from "./plugins/jwt";
 import AdminManageService from "./view/admin/pages/AdminManageService";
 import AdminManageServiceDetail from "./view/admin/pages/AdminManageServiceDetail";
+import AdminManageClinic from "./view/admin/pages/AdminManageClinic";
+import AdminManageClinicDetail from "./view/admin/pages/AdminManageClinicDetail";
+import AdminManageSchedule from "./view/admin/pages/AdminManageSchedule";
+import AdminManageScheduleDetail from "./view/admin/pages/AdminManageScheduleDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -97,6 +101,10 @@ function App() {
           <Route path="manage-registration/:id" element={<AdminManageRegistrationDetail/>}></Route>
           <Route path="manage-service" element={<AdminManageService/>}></Route>
           <Route path="manage-service/:id" element={<AdminManageServiceDetail/>}></Route>
+          <Route path="manage-clinic" element={<AdminManageClinic/>}></Route>
+          <Route path="manage-clinic/:id" element={<AdminManageClinicDetail/>}></Route>
+          <Route path="manage-schedule" element={<AdminManageSchedule/>}></Route>
+          <Route path="manage-schedule/:id" element={<AdminManageScheduleDetail/>}></Route>
         </Route>
 
         <Route path="/coordinator" element={role === "COORDINATOR" ? <CoordinatorLayout/> : <Page404/> }>

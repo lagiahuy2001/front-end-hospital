@@ -9,6 +9,7 @@ import moment from "moment/moment";
 const AdminManageRegistrationDetail = () => {
     const params = useParams();
     const [data, setData] = useState({});
+    const [schedule, setSchedule] = useState(null);
     const {register, handleSubmit, formState: {errors}, reset} = useForm();
     const [result, setResult] = useState([]);
     const [listFill, setListFill] = useState([]);
@@ -20,6 +21,9 @@ const AdminManageRegistrationDetail = () => {
             let res = data.registration
             res.created_at = moment(data.registration.created_at).format('YYYY-MM-DD')
             setData(res)
+            if(data.schedule){
+                setSchedule(data.schedule)
+            }
         })
     }
     useEffect(() => {
@@ -170,6 +174,10 @@ const AdminManageRegistrationDetail = () => {
                         />
                     </div>
                 </div>
+                {data.status == 3 && schedule && <div className="col-12">
+                    <label className="form-label">Đã đăng ký lịch khám
+                        tại {schedule.name} vào {schedule.time} ngày {schedule.date}</label>
+                </div>}
             </div>
             <hr/>
             {data.status == 3 ? <button className="btn btn-success" onClick={() => {
